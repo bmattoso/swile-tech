@@ -16,6 +16,7 @@ targetSdk = "32"
 versionCode = "1"
 versionName = "1.0.0"
 ksp = "1.7.20-1.0.6"
+hilt = "2.44"
 
 [plugins]
 android-tools = { id = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -23,9 +24,11 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-lint = { id = "com.android.lint", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 gms-googleServices = "com.google.gms.google-services:4.3.14"
 kover = "org.jetbrains.kotlinx.kover:0.6.1"
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
 [libraries]
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
@@ -65,6 +68,9 @@ compose-ui-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 
 google-devtools-ksp = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 google-material = "com.google.android.material:material:1.6.1"
+
+hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 
 junit = "junit:junit:4.13.2"
 

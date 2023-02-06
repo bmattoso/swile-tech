@@ -3,6 +3,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.hilt)
     alias(libs.plugins.kover)
 }
 
@@ -64,6 +66,10 @@ android {
     namespace = "com.br.swile.tech"
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
 
     implementation(libs.androidx.core)
@@ -71,6 +77,9 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.compose.ui.ui)
     implementation(libs.compose.material.material.dynamic)
+    implementation(libs.hilt)
+
+    kapt(libs.hilt.compiler)
 
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.manifest)
