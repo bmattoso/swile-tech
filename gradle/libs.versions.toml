@@ -15,7 +15,7 @@ minSdk = "24"
 targetSdk = "32"
 versionCode = "1"
 versionName = "1.0.0"
-ksp = "1.7.20-1.0.6"
+ksp = "1.8.0-1.0.9"
 hilt = "2.44"
 
 [plugins]

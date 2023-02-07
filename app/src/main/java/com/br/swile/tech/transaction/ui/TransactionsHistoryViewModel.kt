@@ -26,7 +26,9 @@ class TransactionsHistoryViewModel @Inject constructor(
 
     val uiState: StateFlow<TransactionsHistoryUiState> = getTransactionsUseCase()
         .filter { it.isNotEmpty() }
-        .map { TransactionsHistoryUiState.Success(emptyList()) }
+        .map { transactions ->
+            TransactionsHistoryUiState.Success(transactions)
+        }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),

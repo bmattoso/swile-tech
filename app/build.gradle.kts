@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.kover)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -73,14 +74,20 @@ kapt {
 
 dependencies {
 
+    annotationProcessor(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
+
     implementation(libs.accompanist.uicontroller)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
     implementation(libs.compose.material.material.dynamic)
     implementation(libs.compose.ui.ui)
+    implementation(libs.google.devtools.ksp)
     implementation(libs.hilt)
     implementation(libs.hilt.compose.navigation)
     implementation(libs.kotlinx.serialization)

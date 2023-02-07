@@ -1,5 +1,6 @@
 package com.br.swile.tech.transaction.remote
 
+import com.br.swile.tech.transaction.local.TransactionDao
 import com.br.swile.tech.transaction.repository.TransactionRepository
 import com.br.swile.tech.transaction.repository.TransactionRepositoryImpl
 import dagger.Module
@@ -29,8 +30,10 @@ object TransactionModule {
 
     @Provides
     fun providesTransactionRepository(
-        transactionDataApi: TransactionDataApi
+        transactionDataApi: TransactionDataApi,
+        transactionDao: TransactionDao
     ): TransactionRepository = TransactionRepositoryImpl(
-        transactionDataApi = transactionDataApi
+        transactionDataApi = transactionDataApi,
+        transactionDao = transactionDao
     )
 }
