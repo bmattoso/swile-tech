@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.br.swile.tech.navigation.transaction.navigateToTransactionDetail
-import com.br.swile.tech.navigation.transaction.transactions
+import com.br.swile.tech.transaction.navigation.navigateToTransactionDetail
+import com.br.swile.tech.transaction.navigation.transactions
 
 @Composable
 fun SwileNavigation(

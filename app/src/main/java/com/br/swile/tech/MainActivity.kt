@@ -3,9 +3,6 @@ package com.br.swile.tech
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.br.swile.tech.core.NetworkState
 import com.br.swile.tech.core.theme.SwileTheme
 import com.br.swile.tech.navigation.SwileHostState
@@ -23,18 +20,5 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    SwileTheme {
-        Greeting("Android")
     }
 }
