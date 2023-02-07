@@ -1,4 +1,4 @@
-package com.br.swile.tech.ui.theme
+package com.br.swile.tech.core.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -72,11 +72,13 @@ kapt {
 
 dependencies {
 
+    implementation(libs.accompanist.uicontroller)
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.compose.ui.ui)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.compose.material.material.dynamic)
+    implementation(libs.compose.ui.ui)
     implementation(libs.hilt)
 
     kapt(libs.hilt.compiler)
