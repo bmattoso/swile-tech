@@ -8,6 +8,6 @@ class SyncTransactionHistoryUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke() {
-        transactionRepository.syncTransactions()
+        transactionRepository.syncTransactionsRemote()
     }
 }

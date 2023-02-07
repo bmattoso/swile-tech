@@ -1,6 +1,8 @@
 package com.br.swile.tech.transaction.local
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
@@ -8,4 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface TransactionDao {
     @Query(value = "SELECT * FROM `transaction`")
     fun getTransactionEntities(): Flow<List<TransactionEntity>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTransactionList(transactionList: List<TransactionEntity>)
 }

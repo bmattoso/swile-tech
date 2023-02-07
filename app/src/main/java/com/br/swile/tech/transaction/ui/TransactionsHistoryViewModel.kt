@@ -27,7 +27,7 @@ class TransactionsHistoryViewModel @Inject constructor(
     val uiState: StateFlow<TransactionsHistoryUiState> = getTransactionsUseCase()
         .filter { it.isNotEmpty() }
         .map { transactions ->
-            TransactionsHistoryUiState.Success(transactions)
+            TransactionsHistoryUiState.Success(transactions.map { it.description })
         }
         .stateIn(
             scope = viewModelScope,
