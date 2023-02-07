@@ -2,9 +2,10 @@
 
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
-    alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.kover)
 }
 
@@ -82,6 +83,11 @@ dependencies {
     implementation(libs.compose.ui.ui)
     implementation(libs.hilt)
     implementation(libs.hilt.compose.navigation)
+    implementation(libs.kotlinx.serialization)
+    implementation(libs.okhttp.loggingInterceptor)
+    implementation(libs.retrofit.retrofit)
+    implementation(libs.retrofit.kotlin.serialization)
+
 
     kapt(libs.hilt.compiler)
 
