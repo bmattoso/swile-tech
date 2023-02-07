@@ -1,4 +1,4 @@
-package com.br.swile.tech.transaction.ui
+package com.br.swile.tech.transaction.ui.detail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text

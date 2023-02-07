@@ -4,14 +4,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun TransactionsHistoryHost(
     modifier: Modifier = Modifier,
-    onTransactionClick: (String) -> Unit
+    onTransactionClick: (String) -> Unit,
+    viewModel: TransactionsHistoryViewModel = hiltViewModel(),
 ) {
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+
     TransactionsHistoryScreen(
         modifier = modifier,
+        uiState = uiState.value,
         onTransactionClick = onTransactionClick
     )
 }
@@ -19,9 +25,17 @@ fun TransactionsHistoryHost(
 @Composable
 fun TransactionsHistoryScreen(
     modifier: Modifier = Modifier,
+    uiState: TransactionsHistoryUiState,
     onTransactionClick: (String) -> Unit
 ) {
     Column(modifier = modifier) {
-        Text(text = "Transactions History")
+        when (uiState) {
+            is TransactionsHistoryUiState.Loading -> {
+                Text(text = "Loading Transactions History")
+            }
+            is TransactionsHistoryUiState.Success -> {
+                Text(text = "Transactions History")
+            }
+        }
     }
 }

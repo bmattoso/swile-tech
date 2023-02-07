@@ -76,10 +76,12 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.compose.material.material.dynamic)
     implementation(libs.compose.ui.ui)
     implementation(libs.hilt)
+    implementation(libs.hilt.compose.navigation)
 
     kapt(libs.hilt.compiler)
 

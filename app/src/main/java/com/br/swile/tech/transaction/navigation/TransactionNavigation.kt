@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.br.swile.tech.navigation.Destination
 import com.br.swile.tech.navigation.ARG_TRANSACTION_ID
-import com.br.swile.tech.transaction.ui.TransactionDetailHost
+import com.br.swile.tech.transaction.ui.detail.TransactionDetailHost
 import com.br.swile.tech.transaction.ui.TransactionsHistoryHost
 
 fun NavController.navigateToTransactionDetail(
