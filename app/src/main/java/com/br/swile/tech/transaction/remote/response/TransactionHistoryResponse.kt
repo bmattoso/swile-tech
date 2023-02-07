@@ -1,5 +1,6 @@
 package com.br.swile.tech.transaction.remote.response
 
+import com.br.swile.tech.core.util.DateExtension.toDate
 import com.br.swile.tech.model.Transaction
 import com.br.swile.tech.model.toTransactionType
 import java.util.Date
@@ -16,7 +17,7 @@ data class TransactionHistoryResponse(
                 id = "$name-$type-$message", // Assuming receiving id from API
                 description = name,
                 type = type.toTransactionType(),
-                date = Date(),
+                date = date.toDate(),
                 amount = amountResponse.value,
                 currency = amountResponse.currencyResponse.toModel(),
                 smallIcon = smallIconResponse.toModel(),

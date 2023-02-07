@@ -31,7 +31,7 @@ class TransactionRepositoryImpl @Inject constructor(
     private fun mapTransactionToEntity(transaction: Transaction) = TransactionEntity(
         id = transaction.id,
         description = transaction.description,
-        date = "",
+        date = transaction.date,
         type = transaction.type,
         amount = transaction.amount,
         currencyCode = transaction.currency.code,
@@ -46,7 +46,7 @@ class TransactionRepositoryImpl @Inject constructor(
     private fun mapTransactionEntityToModel(entity: TransactionEntity) = Transaction(
         id = entity.id,
         description = entity.description,
-        date = Date(),
+        date = entity.date,
         type = entity.type,
         amount = entity.amount,
         currency = Currency(

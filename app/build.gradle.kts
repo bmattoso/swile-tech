@@ -39,8 +39,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
@@ -48,7 +48,7 @@ android {
             "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
         )
 
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
     buildFeatures {
         compose = true
@@ -91,6 +91,7 @@ dependencies {
     implementation(libs.hilt)
     implementation(libs.hilt.compose.navigation)
     implementation(libs.kotlinx.serialization)
+    implementation(libs.kotlinx.datetime)
     implementation(libs.okhttp.loggingInterceptor)
     implementation(libs.retrofit.retrofit)
     implementation(libs.retrofit.kotlin.serialization)
