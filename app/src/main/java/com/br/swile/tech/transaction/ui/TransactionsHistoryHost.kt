@@ -33,8 +33,13 @@ fun TransactionsHistoryScreen(
             is TransactionsHistoryUiState.Loading -> {
                 Text(text = "Loading Transactions History")
             }
+
             is TransactionsHistoryUiState.Success -> {
                 Text(text = "Transactions History")
+            }
+
+            is TransactionsHistoryUiState.UnknownError -> {
+                Text(text = "Error :(")
             }
         }
     }

@@ -9,19 +9,19 @@ import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun rememberSwileState(
-    networkState: NetworkState,
+    networkStateProvider: NetworkStateProvider,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController()
 ): SwileState {
-    return remember(navController, coroutineScope, networkState) {
-        SwileState(navController, coroutineScope, networkState)
+    return remember(navController, coroutineScope, networkStateProvider) {
+        SwileState(navController, coroutineScope, networkStateProvider)
     }
 }
 
 class SwileState(
     val navController: NavHostController,
     val coroutineScope: CoroutineScope,
-    networkState: NetworkState
+    networkStateProvider: NetworkStateProvider
 ) {
     val isOnline = false
 
