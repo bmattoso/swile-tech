@@ -12,6 +12,7 @@ data class TransactionEntity(
     val description: String,
     val date: Instant,
     val amount: Double,
+    val comment: String?,
     @ColumnInfo(name = "currency_code") val currencyCode: String,
     @ColumnInfo(name = "currency_name") val currencyName: String,
     @ColumnInfo(name = "currency_symbol") val currencySymbol: String,

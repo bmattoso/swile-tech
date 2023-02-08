@@ -64,7 +64,7 @@ fun TransactionsHistoryHost(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(12.dp),
+            .padding(top = 12.dp, start = 12.dp, end = 12.dp),
         verticalArrangement = Arrangement.SpaceAround
     ) {
         Text(
@@ -235,7 +235,7 @@ fun TransactionRow(
         Spacer(modifier = Modifier.size(24.dp))
         Box(
             modifier = Modifier
-                .widthIn(min = 48.dp)
+                .widthIn(min = 66.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .background(transaction.amountBackgroundColor),
             contentAlignment = Center

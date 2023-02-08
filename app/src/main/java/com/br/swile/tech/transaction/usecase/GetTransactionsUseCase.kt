@@ -2,8 +2,8 @@ package com.br.swile.tech.transaction.usecase
 
 import com.br.swile.tech.model.Transaction
 import com.br.swile.tech.transaction.repository.TransactionRepository
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 class GetTransactionsUseCase @Inject constructor(
     private val transactionRepository: TransactionRepository

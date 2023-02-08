@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -30,22 +29,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.br.swile.tech.R
 import com.br.swile.tech.core.theme.Purple
-import com.br.swile.tech.core.util.DateExtension.formatDayMonth
-import com.br.swile.tech.model.Currency
+import com.br.swile.tech.core.util.DateExtension.formatDayMonthTime
 import com.br.swile.tech.model.Icon
-import com.br.swile.tech.model.Transaction
-import com.br.swile.tech.model.TransactionType
 import com.br.swile.tech.transaction.ui.TransactionIconImage
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 @Composable
@@ -97,7 +91,7 @@ fun TransactionDetailScreen(
                 Spacer(modifier = Modifier.size(16.dp))
                 TransactionAmountAndDate(
                     modifier = Modifier.fillMaxWidth(),
-                    amount = transaction.amount.toString(),
+                    amount = transaction.formattedAmount,
                     description = transaction.description,
                     dateTime = transaction.date,
                 )
@@ -174,7 +168,7 @@ fun TransactionAmountAndDate(
         )
         Spacer(modifier = Modifier.size(8.dp))
         Text(
-            text = dateTime.formatDayMonth(),
+            text = dateTime.formatDayMonthTime(),
             textAlign = TextAlign.End,
             style = MaterialTheme.typography.labelMedium,
             color = Color.LightGray
@@ -245,23 +239,4 @@ fun RowAction(
             style = MaterialTheme.typography.bodyLarge
         )
     }
-}
-
-@Preview
-@Composable
-fun TransactionDetailScreenPreview() {
-    val transaction = Transaction(
-        id = "1",
-        description = "Mc Donalds",
-        type = TransactionType.BURGER,
-        date = Clock.System.now(),
-        amount = -15.0,
-        currency = Currency(
-            code = "EUR",
-            name = "Euro",
-            symbol = "€"
-        ),
-        smallIcon = Icon(null, TransactionType.BURGER),
-        largeIcon = Icon(null, TransactionType.MEAL_VOUCHER),
-    )
 }

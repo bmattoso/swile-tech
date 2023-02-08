@@ -37,6 +37,7 @@ class TransactionRepositoryImpl @Inject constructor(
         date = date,
         type = type,
         amount = amount,
+        comment = comment,
         currencyCode = currency.code,
         currencyName = currency.name,
         currencySymbol = currency.symbol,
@@ -51,6 +52,7 @@ class TransactionRepositoryImpl @Inject constructor(
         description = description,
         date = date,
         type = type,
+        comment = comment,
         amount = amount,
         currency = Currency(
             code = currencyCode,
