@@ -6,10 +6,9 @@ import com.br.swile.tech.model.Transaction
 import com.br.swile.tech.transaction.local.TransactionDao
 import com.br.swile.tech.transaction.local.TransactionEntity
 import com.br.swile.tech.transaction.remote.TransactionDataApi
-import java.util.Date
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
     private val transactionDataApi: TransactionDataApi,
@@ -17,44 +16,48 @@ class TransactionRepositoryImpl @Inject constructor(
 ) : TransactionRepository {
 
     override fun getTransactions(): Flow<List<Transaction>> =
-        transactionDao.getTransactionEntities()
-            .map { entityList ->
-                entityList.map { entity -> mapTransactionEntityToModel(entity) }
-            }
+        transactionDao.getTransactionEntities().map { entityList ->
+            entityList.map { entity -> entity.mapTransactionEntityToModel() }
+        }
+
+    override fun getTransactionById(transactionId: String?): Flow<Transaction?> =
+        transactionDao.getTransactionById(transactionId).map { transactionEntity ->
+            transactionEntity?.mapTransactionEntityToModel()
+        }
 
     override suspend fun syncTransactionsRemote() {
         val transactionList = transactionDataApi.getTransactions()
-        val transactionEntities = transactionList.map { mapTransactionToEntity(it) }
+        val transactionEntities = transactionList.map { it.mapTransactionToEntity() }
         transactionDao.insertTransactionList(transactionEntities)
     }
 
-    private fun mapTransactionToEntity(transaction: Transaction) = TransactionEntity(
-        id = transaction.id,
-        description = transaction.description,
-        date = transaction.date,
-        type = transaction.type,
-        amount = transaction.amount,
-        currencyCode = transaction.currency.code,
-        currencyName = transaction.currency.name,
-        currencySymbol = transaction.currency.symbol,
-        smallIconUrl = transaction.smallIcon.url,
-        smallIconType = transaction.smallIcon.type,
-        largeIconUrl = transaction.largeIcon.url,
-        largeIconType = transaction.largeIcon.type,
+    private fun Transaction.mapTransactionToEntity() = TransactionEntity(
+        id = id,
+        description = description,
+        date = date,
+        type = type,
+        amount = amount,
+        currencyCode = currency.code,
+        currencyName = currency.name,
+        currencySymbol = currency.symbol,
+        smallIconUrl = smallIcon.url,
+        smallIconType = smallIcon.type,
+        largeIconUrl = largeIcon.url,
+        largeIconType = largeIcon.type,
     )
 
-    private fun mapTransactionEntityToModel(entity: TransactionEntity) = Transaction(
-        id = entity.id,
-        description = entity.description,
-        date = entity.date,
-        type = entity.type,
-        amount = entity.amount,
+    private fun TransactionEntity.mapTransactionEntityToModel() = Transaction(
+        id = id,
+        description = description,
+        date = date,
+        type = type,
+        amount = amount,
         currency = Currency(
-            code = entity.currencyCode,
-            name = entity.currencyName,
-            symbol = entity.currencySymbol
+            code = currencyCode,
+            name = currencyName,
+            symbol = currencySymbol
         ),
-        smallIcon = Icon(entity.smallIconUrl, entity.smallIconType),
-        largeIcon = Icon(entity.largeIconUrl, entity.largeIconType)
+        smallIcon = Icon(smallIconUrl, smallIconType),
+        largeIcon = Icon(largeIconUrl, largeIconType)
     )
 }

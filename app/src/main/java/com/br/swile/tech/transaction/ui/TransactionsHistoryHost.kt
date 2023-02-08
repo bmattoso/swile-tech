@@ -34,17 +34,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.br.swile.tech.R
 import com.br.swile.tech.core.component.DefaultLottieAnimation
 import com.br.swile.tech.core.component.ImageLoader
 import com.br.swile.tech.core.component.ProgressIndicator
-import com.br.swile.tech.core.theme.LightPurple
-import com.br.swile.tech.core.theme.Purple
 import com.br.swile.tech.model.Icon
 import com.br.swile.tech.model.Transaction
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -62,11 +61,21 @@ fun TransactionsHistoryHost(
 
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
-    TransactionsHistoryScreen(
-        modifier = modifier.fillMaxSize(),
-        uiState = uiState.value,
-        onTransactionClick = onTransactionClick,
-        refreshTransactions = { viewModel.refreshTransactionHistory() })
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(12.dp),
+        verticalArrangement = Arrangement.SpaceAround
+    ) {
+        Text(
+            text = stringResource(id = R.string.transactions),
+            style = MaterialTheme.typography.titleLarge
+        )
+        TransactionsHistoryScreen(
+            uiState = uiState.value,
+            onTransactionClick = onTransactionClick,
+            refreshTransactions = { viewModel.refreshTransactionHistory() })
+    }
 }
 
 @Composable
@@ -125,7 +134,7 @@ fun TransactionsHistoryProblem(
         Text(
             text = message,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyMedium
         )
         Spacer(modifier = Modifier.size(16.dp))
         Button(onClick = onTryAgain) {
@@ -150,7 +159,7 @@ fun EmptyTransactionHistory(
         Text(
             text = stringResource(id = R.string.empty_transaction_history),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyMedium
         )
     }
 }
@@ -164,7 +173,7 @@ fun TransactionList(
     LazyColumn(modifier = modifier) {
         items(transactions, key = { it.id }) { transaction ->
             TransactionRow(
-                modifier = Modifier.padding(12.dp),
+                modifier = Modifier.padding(top = 6.dp, bottom = 6.dp),
                 transaction = transaction,
                 onTransactionClick = onTransactionClick
             )
@@ -210,22 +219,32 @@ fun TransactionRow(
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.Start
         ) {
-            Text(text = transaction.description, fontSize = 15.sp, color = Color.Black)
+            Text(
+                text = transaction.description,
+                style = MaterialTheme.typography.bodyMedium,
+                fontStyle = FontStyle.Normal
+            )
             Spacer(modifier = Modifier.size(2.dp))
-            Text(text = transaction.extraInformation, fontSize = 12.sp, color = Color.LightGray)
+            Text(
+                text = transaction.extraInformation,
+                style = MaterialTheme.typography.labelSmall,
+                color = Color.LightGray,
+                fontStyle = FontStyle.Normal
+            )
         }
         Spacer(modifier = Modifier.size(24.dp))
         Box(
             modifier = Modifier
                 .widthIn(min = 48.dp)
                 .clip(RoundedCornerShape(12.dp))
-                .background(transaction.amount.getAmountBackgroundColor()),
+                .background(transaction.amountBackgroundColor),
             contentAlignment = Center
         ) {
             Text(
-                text = transaction.amount.toString(),
-                fontSize = 15.sp,
-                color = transaction.amount.getAmountFontColor()
+                text = transaction.formattedAmount,
+                style = MaterialTheme.typography.bodyMedium,
+                color = transaction.amountFontColor,
+                textAlign = TextAlign.End
             )
         }
     }
@@ -235,6 +254,7 @@ fun TransactionRow(
 fun TransactionIconImage(
     modifier: Modifier = Modifier,
     icon: Icon,
+    iconSize: Dp = 24.dp,
     contentDescription: String? = null
 ) {
 
@@ -253,7 +273,7 @@ fun TransactionIconImage(
         ) {
             Image(
                 modifier = Modifier
-                    .size(24.dp)
+                    .size(iconSize)
                     .align(Center),
                 painter = painterResource(id = icon.type.defaultIcon),
                 contentDescription = contentDescription
@@ -261,7 +281,3 @@ fun TransactionIconImage(
         }
     }
 }
-
-private fun Double.getAmountBackgroundColor(): Color = if (this <= 0) Color.White else LightPurple
-
-private fun Double.getAmountFontColor(): Color = if (this <= 0) Color.Black else Purple

@@ -16,8 +16,11 @@ fun NavController.navigateToTransactionDetail(
     transactionId: String
 ) {
     navigate(
-        Destination.TRANSACTION_DETAIL.route.replace(ARG_TRANSACTION_ID, transactionId),
-        navOptions
+        navOptions = navOptions,
+        route = Destination.TRANSACTION_DETAIL.route
+            .replace("{","")
+            .replace("}","")
+            .replace(ARG_TRANSACTION_ID, transactionId)
     )
 }
 
@@ -35,7 +38,6 @@ fun NavGraphBuilder.transactions(
         route = Destination.TRANSACTION_DETAIL.route,
         arguments = listOf(navArgument(ARG_TRANSACTION_ID) { type = NavType.StringType })
     ) {
-        val transactionId = it.arguments?.getString(ARG_TRANSACTION_ID) ?: ""
         TransactionDetailHost(onBackPressed = onBackPressed)
     }
 }

@@ -13,4 +13,7 @@ interface TransactionDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTransactionList(transactionList: List<TransactionEntity>)
+
+    @Query(value = "SELECT * FROM `transaction` WHERE id = :transactionId")
+    fun getTransactionById(transactionId: String?): Flow<TransactionEntity?>
 }
