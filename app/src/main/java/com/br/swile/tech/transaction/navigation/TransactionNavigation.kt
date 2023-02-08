@@ -36,6 +36,6 @@ fun NavGraphBuilder.transactions(
         arguments = listOf(navArgument(ARG_TRANSACTION_ID) { type = NavType.StringType })
     ) {
         val transactionId = it.arguments?.getString(ARG_TRANSACTION_ID) ?: ""
-        TransactionDetailHost(onBackPressed = onBackPressed, transactionId = transactionId)
+        TransactionDetailHost(onBackPressed = onBackPressed)
     }
 }

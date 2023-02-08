@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Swile" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Swile.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Swile" parent="Theme.Swile.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <item name="android:windowLightStatusBar">@bool/use_light_status_bar</item>
+    </style>
+
 </resources>

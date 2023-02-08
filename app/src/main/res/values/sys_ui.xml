@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <color name="status_bar_scrim">@android:color/transparent</color>
+    <bool name="use_light_status_bar">true</bool>
+
+    <color name="nav_bar_scrim">@color/black</color>
+    <bool name="use_light_nav_bar">false</bool>
+</resources>

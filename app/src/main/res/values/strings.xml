@@ -5,4 +5,5 @@
     <string name="empty_transaction_history">You don\'t have transactions yet.</string>
     <string name="error_time_out_description">We\'ve reach this operation time limit.</string>
     <string name="error_description_unkown">Sorry for the mess, we\'re working to fix it.</string>
+    <string name="close">Close</string>
 </resources>

@@ -23,6 +23,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.Center
@@ -43,6 +44,7 @@ import com.br.swile.tech.core.component.ImageLoader
 import com.br.swile.tech.core.component.ProgressIndicator
 import com.br.swile.tech.model.Icon
 import com.br.swile.tech.model.Transaction
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun TransactionsHistoryHost(
@@ -50,6 +52,11 @@ fun TransactionsHistoryHost(
     onTransactionClick: (String) -> Unit,
     viewModel: TransactionsHistoryViewModel = hiltViewModel(),
 ) {
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setStatusBarColor(Color.White)
+    }
+
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     TransactionsHistoryScreen(
