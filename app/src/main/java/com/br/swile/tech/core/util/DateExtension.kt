@@ -6,5 +6,5 @@ object DateExtension {
 
     fun String.toDate(): Instant = Instant.parse(this)
 
-    fun Instant.formatDayMonth(): String = ""
+    fun Instant.formatDayMonth(): String = "12 Oct"
 }

@@ -85,6 +85,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)
+    implementation(libs.coil.coil)
+    implementation(libs.coil.compose)
     implementation(libs.compose.material.material.dynamic)
     implementation(libs.compose.ui.ui)
     implementation(libs.google.devtools.ksp)

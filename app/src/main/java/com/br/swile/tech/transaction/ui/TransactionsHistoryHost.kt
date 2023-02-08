@@ -1,31 +1,47 @@
 package com.br.swile.tech.transaction.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomEnd
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.br.swile.tech.R
 import com.br.swile.tech.core.component.DefaultLottieAnimation
+import com.br.swile.tech.core.component.ImageLoader
 import com.br.swile.tech.core.component.ProgressIndicator
+import com.br.swile.tech.model.Icon
 import com.br.swile.tech.model.Transaction
 
 @Composable
@@ -38,7 +54,7 @@ fun TransactionsHistoryHost(
 
     TransactionsHistoryScreen(
         modifier = modifier.fillMaxSize(),
-        uiState = TransactionsHistoryUiState.Success(emptyList()),
+        uiState = uiState.value,
         onTransactionClick = onTransactionClick,
         refreshTransactions = { viewModel.refreshTransactionHistory() })
 }
@@ -135,9 +151,10 @@ fun TransactionList(
     transactions: List<Transaction>,
     onTransactionClick: (String) -> Unit
 ) {
-    LazyColumn() {
+    LazyColumn(modifier = modifier) {
         items(transactions, key = { it.id }) { transaction ->
             TransactionRow(
+                modifier = Modifier.padding(12.dp),
                 transaction = transaction,
                 onTransactionClick = onTransactionClick
             )
@@ -153,17 +170,87 @@ fun TransactionRow(
 ) {
     Row(
         modifier = modifier
+            .fillMaxWidth()
             .heightIn(min = 48.dp)
-            .clickable(onClick = { onTransactionClick(transaction.id) })
+            .padding(6.dp)
+            .clickable(onClick = { onTransactionClick(transaction.id) }),
+        horizontalArrangement = Arrangement.SpaceAround
     ) {
         Box {
-            //Image()
-            // Image(modifier = Modifier.bottom.right)
+            TransactionIconImage(
+                icon = transaction.largeIcon,
+                contentDescription = stringResource(transaction.type.description),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(20.dp))
+                    .size(56.dp)
+            )
+            TransactionIconImage(
+                icon = transaction.smallIcon,
+                modifier = Modifier
+                    .align(BottomEnd)
+                    .clip(CircleShape)
+                    .size(16.dp)
+            )
         }
-        Column {
-            Text(text = transaction.description)
-            Text(text = transaction.extraInformation)
+        Spacer(modifier = Modifier.size(12.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(2f),
+            verticalArrangement = Arrangement.SpaceAround,
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(text = transaction.description, fontSize = 15.sp, color = Color.Black)
+            Spacer(modifier = Modifier.size(2.dp))
+            Text(text = transaction.extraInformation, fontSize = 12.sp, color = Color.LightGray)
         }
-        Text(text = transaction.amount.toString())
+        Spacer(modifier = Modifier.size(24.dp))
+        Box(
+            modifier = Modifier
+                .widthIn(min = 48.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(transaction.amount.getBackgroundColor()),
+            contentAlignment = Center
+        ) {
+            Text(
+                text = transaction.amount.toString(),
+                fontSize = 15.sp,
+                color = transaction.amount.getFontColor()
+            )
+        }
     }
+}
+
+@Composable
+fun TransactionIconImage(
+    modifier: Modifier = Modifier,
+    icon: Icon,
+    contentDescription: String? = null
+) {
+    if (icon.url != null) {
+        ImageLoader(
+            modifier = modifier,
+            contentDescription = contentDescription,
+            imageUrl = icon.url,
+            defaultContentResource = icon.type.defaultIcon
+        )
+    } else {
+        Image(
+            modifier = modifier,
+            painter = painterResource(id = icon.type.defaultIcon),
+            contentDescription = contentDescription
+        )
+    }
+}
+
+private fun Double.getBackgroundColor(): Color = if (this <= 0) {
+    Color.White
+} else {
+    Color.Yellow
+}
+
+private fun Double.getFontColor(): Color = if (this <= 0) {
+    Color.Black
+} else {
+    Color.Red
 }
