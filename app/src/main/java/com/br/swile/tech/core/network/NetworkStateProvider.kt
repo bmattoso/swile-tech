@@ -1,4 +1,4 @@
-package com.br.swile.tech.core
+package com.br.swile.tech.core.network
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -11,7 +11,6 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.conflate
-import kotlinx.coroutines.flow.single
 import javax.inject.Inject
 
 class NetworkStateProvider @Inject constructor(

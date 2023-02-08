@@ -1,10 +1,10 @@
 package com.br.swile.tech.transaction.ui
 
 import android.util.Log
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.br.swile.tech.core.NetworkStateProvider
+import com.br.swile.tech.R
+import com.br.swile.tech.core.network.NetworkStateProvider
 import com.br.swile.tech.core.util.LoadingState
 import com.br.swile.tech.core.util.OperationStatus
 import com.br.swile.tech.model.Transaction
@@ -12,15 +12,14 @@ import com.br.swile.tech.transaction.ui.TransactionsHistoryUiState.Loading
 import com.br.swile.tech.transaction.usecase.GetTransactionsUseCase
 import com.br.swile.tech.transaction.usecase.SyncTransactionHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -50,7 +49,7 @@ class TransactionsHistoryViewModel @Inject constructor(
     ) { isLoading, transactionList, throwable ->
         when {
             isLoading -> Loading
-            throwable != null -> TransactionsHistoryUiState.UnknownError(throwable)
+            throwable != null -> TransactionsHistoryUiState.UnknownError(throwable.toMessage())
             else -> TransactionsHistoryUiState.Success(transactionList)
         }
     }.stateIn(
@@ -63,10 +62,10 @@ class TransactionsHistoryViewModel @Inject constructor(
         viewModelScope.launch {
             networkStateProvider.isOnlineFlow.collect { isConnectedState.tryEmit(it) }
         }
-        updateTransactionHistory()
+        refreshTransactionHistory()
     }
 
-    fun updateTransactionHistory() {
+    fun refreshTransactionHistory() {
         viewModelScope.launch {
             if (isConnectedState.value) {
                 refreshingLoadingState.addLoading()
@@ -77,5 +76,10 @@ class TransactionsHistoryViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun Throwable.toMessage(): Int = when (this) {
+        is TimeoutCancellationException -> R.string.error_time_out_description
+        else -> R.string.error_description_unkown
     }
 }

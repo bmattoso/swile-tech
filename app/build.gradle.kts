@@ -92,6 +92,7 @@ dependencies {
     implementation(libs.hilt.compose.navigation)
     implementation(libs.kotlinx.serialization)
     implementation(libs.kotlinx.datetime)
+    implementation(libs.lottie)
     implementation(libs.okhttp.loggingInterceptor)
     implementation(libs.retrofit.retrofit)
     implementation(libs.retrofit.kotlin.serialization)

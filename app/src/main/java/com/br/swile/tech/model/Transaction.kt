@@ -1,5 +1,6 @@
 package com.br.swile.tech.model
 
+import com.br.swile.tech.core.util.DateExtension.formatDayMonth
 import kotlinx.datetime.Instant
 
 data class Transaction(
@@ -11,4 +12,8 @@ data class Transaction(
     val currency: Currency,
     val smallIcon: Icon,
     val largeIcon: Icon,
-)
+) {
+    val extraInformation: String
+        get() = date.formatDayMonth()
+}
+

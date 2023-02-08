@@ -5,7 +5,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.br.swile.tech.core.network.NetworkStateProvider
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 
 @Composable
 fun rememberSwileState(
@@ -20,10 +23,15 @@ fun rememberSwileState(
 
 class SwileState(
     val navController: NavHostController,
-    val coroutineScope: CoroutineScope,
+    coroutineScope: CoroutineScope,
     networkStateProvider: NetworkStateProvider
 ) {
-    val isOnline = false
+
+    val isConnected = networkStateProvider.isOnlineFlow.stateIn(
+        scope = coroutineScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = false
+    )
 
     fun onBackPressed() {
         navController.popBackStack()
