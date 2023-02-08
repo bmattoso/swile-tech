@@ -1,5 +1,7 @@
 package com.br.swile.tech.core.util
 
+import com.br.swile.tech.core.util.DateExtension.formatDayMonth
+import com.br.swile.tech.core.util.DateExtension.formatDayMonthTime
 import com.br.swile.tech.core.util.DateExtension.toDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -21,5 +23,21 @@ class DateExtensionTest {
         assertEquals(4, localDateTime.minute)
         assertEquals(45, localDateTime.second)
         assertEquals(0, localDateTime.nanosecond)
+    }
+
+    @Test
+    fun formatDayMonth_validatePattern() {
+        val date = "2021-03-07T14:04:45.000+02:00"
+        val instantDate = date.toDate()
+
+        assertEquals("07 March", instantDate.formatDayMonth())
+    }
+
+    @Test
+    fun formatDayMonthTime_validatePattern() {
+        val date = "2021-03-07T14:04:45.000+02:00"
+        val instantDate = date.toDate()
+
+        assertEquals("Sunday 07 March, 14:04", instantDate.formatDayMonthTime())
     }
 }
