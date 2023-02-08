@@ -174,21 +174,21 @@ fun TransactionDetailActions(
     modifier: Modifier = Modifier
 ) {
     val actions: List<Pair<Int, Int>> = listOf(
-        R.drawable.ic_launcher_foreground to R.string.loading,
-        R.drawable.ic_launcher_foreground to R.string.loading,
-        R.drawable.ic_launcher_foreground to R.string.loading,
+        R.drawable.ic_bill_sharing_action to R.string.action_bill_sharing,
+        R.drawable.ic_like_action to R.string.action_favorite,
+        R.drawable.ic_question_action to R.string.action_problem_report,
     )
 
     Column(modifier = modifier) {
         Row {
             RowAction(
                 modifier = Modifier.weight(2f),
-                icon = R.drawable.ic_launcher_foreground,
-                text = "",
+                icon = R.drawable.ic_meal_action,
+                text = stringResource(R.string.action_restaurant_vouchers),
                 onActionClick = {}
             )
             Text(
-                text = "Changer\nde compte",
+                text = stringResource(id = R.string.action_change_account),
                 textAlign = TextAlign.Center,
                 color = Color.DarkGray
             )

@@ -6,4 +6,9 @@
     <string name="error_time_out_description">We\'ve reach this operation time limit.</string>
     <string name="error_description_unkown">Sorry for the mess, we\'re working to fix it.</string>
     <string name="close">Close</string>
+    <string name="action_bill_sharing">Bill sharing</string>
+    <string name="action_favorite">Favorite</string>
+    <string name="action_problem_report">Report a problem</string>
+    <string name="action_restaurant_vouchers">Restaurant Vouchers</string>
+    <string name="action_change_account">Change\nto other account</string>
 </resources>

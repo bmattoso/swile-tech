@@ -2,6 +2,7 @@ package com.br.swile.tech.transaction.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,6 +43,8 @@ import com.br.swile.tech.R
 import com.br.swile.tech.core.component.DefaultLottieAnimation
 import com.br.swile.tech.core.component.ImageLoader
 import com.br.swile.tech.core.component.ProgressIndicator
+import com.br.swile.tech.core.theme.LightPurple
+import com.br.swile.tech.core.theme.Purple
 import com.br.swile.tech.model.Icon
 import com.br.swile.tech.model.Transaction
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -196,7 +199,7 @@ fun TransactionRow(
                 modifier = Modifier
                     .align(BottomEnd)
                     .clip(CircleShape)
-                    .size(16.dp)
+                    .size(20.dp)
             )
         }
         Spacer(modifier = Modifier.size(12.dp))
@@ -216,13 +219,13 @@ fun TransactionRow(
             modifier = Modifier
                 .widthIn(min = 48.dp)
                 .clip(RoundedCornerShape(12.dp))
-                .background(transaction.amount.getBackgroundColor()),
+                .background(transaction.amount.getAmountBackgroundColor()),
             contentAlignment = Center
         ) {
             Text(
                 text = transaction.amount.toString(),
                 fontSize = 15.sp,
-                color = transaction.amount.getFontColor()
+                color = transaction.amount.getAmountFontColor()
             )
         }
     }
@@ -234,6 +237,7 @@ fun TransactionIconImage(
     icon: Icon,
     contentDescription: String? = null
 ) {
+
     if (icon.url != null) {
         ImageLoader(
             modifier = modifier,
@@ -242,22 +246,22 @@ fun TransactionIconImage(
             defaultContentResource = icon.type.defaultIcon
         )
     } else {
-        Image(
-            modifier = modifier,
-            painter = painterResource(id = icon.type.defaultIcon),
-            contentDescription = contentDescription
-        )
+        Box(
+            modifier = modifier
+                .background(icon.type.backgroundColor)
+                .border(width = 2.dp, color = icon.type.backgroundColor)
+        ) {
+            Image(
+                modifier = Modifier
+                    .size(24.dp)
+                    .align(Center),
+                painter = painterResource(id = icon.type.defaultIcon),
+                contentDescription = contentDescription
+            )
+        }
     }
 }
 
-private fun Double.getBackgroundColor(): Color = if (this <= 0) {
-    Color.White
-} else {
-    Color.Yellow
-}
+private fun Double.getAmountBackgroundColor(): Color = if (this <= 0) Color.White else LightPurple
 
-private fun Double.getFontColor(): Color = if (this <= 0) {
-    Color.Black
-} else {
-    Color.Red
-}
+private fun Double.getAmountFontColor(): Color = if (this <= 0) Color.Black else Purple
