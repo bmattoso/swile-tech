@@ -119,6 +119,7 @@ dependencies {
     testImplementation(libs.androidx.test.junit)
     testImplementation(libs.hilt.testing)
     testImplementation(libs.junit)
+    testImplementation(libs.kotlin.coroutines.android)
     testImplementation(libs.kotlin.coroutines.test)
     testImplementation(libs.kotlinx.datetime)
     testImplementation(libs.mockK)

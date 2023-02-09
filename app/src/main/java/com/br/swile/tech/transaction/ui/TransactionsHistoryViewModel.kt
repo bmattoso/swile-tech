@@ -12,7 +12,7 @@ import com.br.swile.tech.transaction.ui.TransactionsHistoryUiState.Loading
 import com.br.swile.tech.transaction.usecase.GetTransactionsUseCase
 import com.br.swile.tech.transaction.usecase.SyncTransactionHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import javax.inject.Inject
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,11 +20,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class TransactionsHistoryViewModel @Inject constructor(
@@ -35,17 +32,16 @@ class TransactionsHistoryViewModel @Inject constructor(
 
     private val isConnectedState = MutableStateFlow(false)
     private val failedState = MutableStateFlow<Throwable?>(null)
-    private val refreshingLoadingState = LoadingState()
+    private val isLoadingState = LoadingState()
     private val transactionsHistoryFlow: Flow<List<Transaction>> = getTransactionsUseCase()
         .catch { throwable ->
             // Send throwable logs to Crash platform
             Log.e("GET-TransactionsHist", throwable.message, throwable)
             failedState.tryEmit(throwable)
         }
-        .onEach { refreshingLoadingState.removeLoading() }
 
     val uiState: StateFlow<TransactionsHistoryUiState> = combine(
-        refreshingLoadingState.state,
+        isLoadingState.state,
         transactionsHistoryFlow,
         failedState
     ) { isLoading, transactionList, throwable ->
@@ -70,8 +66,9 @@ class TransactionsHistoryViewModel @Inject constructor(
     fun refreshTransactionHistory() {
         viewModelScope.launch {
             if (isConnectedState.value) {
-                refreshingLoadingState.addLoading()
+                isLoadingState.addLoading()
                 syncTransactionHistoryUseCase().collect { operatorStatus ->
+                    isLoadingState.removeLoading()
                     if (operatorStatus is OperationStatus.Failed) {
                         failedState.tryEmit(operatorStatus.throwable)
                     }

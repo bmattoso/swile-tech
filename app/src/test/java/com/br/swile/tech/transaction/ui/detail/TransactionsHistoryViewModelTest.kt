@@ -1,8 +1,8 @@
 package com.br.swile.tech.transaction.ui.detail
 
 import com.br.swile.tech.fake.FakeNetworkStateProvider
-import com.br.swile.tech.model.Transaction
 import com.br.swile.tech.test.MainDispatcherRule
+import com.br.swile.tech.test.SampleDataTest.mealTransaction
 import com.br.swile.tech.transaction.fake.FakeTransactionRepository
 import com.br.swile.tech.transaction.ui.TransactionsHistoryUiState
 import com.br.swile.tech.transaction.ui.TransactionsHistoryViewModel
@@ -10,11 +10,8 @@ import com.br.swile.tech.transaction.usecase.GetTransactionsUseCase
 import com.br.swile.tech.transaction.usecase.SyncTransactionHistoryUseCase
 import io.mockk.coVerify
 import io.mockk.spyk
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -68,5 +65,28 @@ class TransactionsHistoryViewModelTest {
             getTransactionsUseCase = getTransactionsUseCase
         )
         assertTrue(viewModel.uiState.value is TransactionsHistoryUiState.Loading)
+    }
+
+    @Test
+    fun refreshTransactionHistory_updateUiStateWithNewTransaction() = runTest {
+        transactionRepository.transactions.clear()
+
+        viewModel = TransactionsHistoryViewModel(
+            networkStateProvider = networkStateProvider,
+            syncTransactionHistoryUseCase = syncTransactionHistoryUseCase,
+            getTransactionsUseCase = getTransactionsUseCase
+        )
+
+        networkStateProvider.setIsConnected(true)
+        transactionRepository.transactions.add(mealTransaction)
+
+        viewModel.refreshTransactionHistory()
+
+        val successUiState = viewModel.uiState.first()
+        assertTrue(successUiState is TransactionsHistoryUiState.Success)
+        val transactions = (successUiState as TransactionsHistoryUiState.Success).transactions
+        assertTrue(transactions.isNotEmpty())
+        assertEquals(mealTransaction.id, transactions[0].id)
+
     }
 }
