@@ -1,11 +1,13 @@
 package com.br.swile.tech.core.network
 
+import android.content.Context
 import com.br.swile.tech.BuildConfig
 import com.br.swile.tech.transaction.di.TransactionModule
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +30,11 @@ object NetworkModule {
     @Provides
     @Singleton
     fun providesJson(): Json = Json { ignoreUnknownKeys = true }
+
+    @Provides
+    fun providesNetworkStateProviderImpl(
+        @ApplicationContext context: Context
+    ): NetworkStateProvider = NetworkStateProviderImpl(context)
 
     @Provides
     @Singleton
