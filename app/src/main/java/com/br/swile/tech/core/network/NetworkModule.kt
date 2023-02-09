@@ -1,7 +1,7 @@
 package com.br.swile.tech.core.network
 
 import com.br.swile.tech.BuildConfig
-import com.br.swile.tech.transaction.remote.TransactionModule
+import com.br.swile.tech.transaction.di.TransactionModule
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

@@ -1,32 +1,18 @@
-package com.br.swile.tech.transaction.remote
+package com.br.swile.tech.transaction.di
 
 import com.br.swile.tech.transaction.local.TransactionDao
+import com.br.swile.tech.transaction.remote.TransactionDataApi
+import com.br.swile.tech.transaction.remote.di.TransactionRemoteModule
 import com.br.swile.tech.transaction.repository.TransactionRepository
 import com.br.swile.tech.transaction.repository.TransactionRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import kotlinx.coroutines.CoroutineDispatcher
-import retrofit2.Retrofit
 
-@Module
+@Module(includes = [TransactionRemoteModule::class])
 @InstallIn(ActivityComponent::class)
 object TransactionModule {
-
-    @Provides
-    fun providesTransactionService(
-        retrofit: Retrofit
-    ): TransactionService = retrofit.create(TransactionService::class.java)
-
-    @Provides
-    fun providesTransactionDataApi(
-        ioDispatcher: CoroutineDispatcher,
-        transactionService: TransactionService
-    ): TransactionDataApi = TransactionDataApiImpl(
-        ioDispatcher = ioDispatcher,
-        transactionService = transactionService
-    )
 
     @Provides
     fun providesTransactionRepository(

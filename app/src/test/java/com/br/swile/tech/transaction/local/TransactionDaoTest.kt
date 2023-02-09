@@ -1,7 +1,6 @@
 package com.br.swile.tech.transaction.local
 
 import com.br.swile.tech.core.database.DatabaseModule
-import com.br.swile.tech.core.database.SwileDatabase
 import com.br.swile.tech.test.SampleDataTest.mealTransactionEntity
 import com.br.swile.tech.test.SampleDataTest.mobilityTransactionEntity
 import com.br.swile.tech.test.SwileDatabaseApplicationTest
@@ -9,19 +8,18 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
+import junit.framework.TestCase.assertNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import java.util.UUID
 import javax.inject.Inject
 
 @UninstallModules(DatabaseModule::class)
 @HiltAndroidTest
 class TransactionDaoTest : SwileDatabaseApplicationTest() {
-
-    @Inject
-    lateinit var database: SwileDatabase
 
     @Inject
     lateinit var transactionDao: TransactionDao
@@ -61,6 +59,13 @@ class TransactionDaoTest : SwileDatabaseApplicationTest() {
         val transaction = transactionDao.getTransactionById(mealTransactionEntity.id).first()
 
         assertNotNull(transaction)
-        assertEquals(mobilityTransactionEntity.id, transaction?.id)
+        assertEquals(mealTransactionEntity.id, transaction?.id)
+    }
+
+    @Test
+    fun getTransactionById_returnNull_whenTransactionNotFound() = runTest {
+        val transaction = transactionDao.getTransactionById(UUID.randomUUID().toString()).first()
+
+        assertNull(transaction)
     }
 }

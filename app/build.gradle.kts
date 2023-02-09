@@ -77,6 +77,10 @@ kapt {
     correctErrorTypes = true
 }
 
+hilt {
+    enableTransformForLocalTests = true
+}
+
 dependencies {
 
     annotationProcessor(libs.androidx.room.compiler)
@@ -117,6 +121,7 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.kotlin.coroutines.test)
     testImplementation(libs.kotlinx.datetime)
+    testImplementation(libs.mockK)
     testImplementation(libs.robolectric)
 
     kspTest(libs.androidx.room.compiler)
