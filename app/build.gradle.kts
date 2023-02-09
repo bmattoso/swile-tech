@@ -18,6 +18,11 @@ android {
         versionName = libs.versions.versionName.get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testOptions {
+            unitTests {
+                isIncludeAndroidResources = true
+            }
+        }
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -99,13 +104,23 @@ dependencies {
     implementation(libs.retrofit.retrofit)
     implementation(libs.retrofit.kotlin.serialization)
 
-
     kapt(libs.hilt.compiler)
 
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.manifest)
 
+    testImplementation(libs.androidx.archCoreTesting)
+    testImplementation(libs.androidx.room.testing)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.test.junit)
+    testImplementation(libs.hilt.testing)
     testImplementation(libs.junit)
+    testImplementation(libs.kotlin.coroutines.test)
+    testImplementation(libs.kotlinx.datetime)
+    testImplementation(libs.robolectric)
+
+    kspTest(libs.androidx.room.compiler)
+    kaptTest(libs.hilt.compiler)
 
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.compose.ui.test)

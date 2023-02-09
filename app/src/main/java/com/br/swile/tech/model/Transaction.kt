@@ -32,15 +32,15 @@ data class Transaction(
     val amountFontColor: Color
         get() = if (amount <= 0) Color.Black else Purple
 
-    private val currencyFormatter = NumberFormat.getCurrencyInstance(Locale.FRANCE).apply {
+    val formattedAmount: String
+        get() = if (amount > 0) {
+            "+${getCurrencyFormatter().format(amount)}"
+        } else {
+            getCurrencyFormatter().format(amount)
+        }
+
+    private fun getCurrencyFormatter() = NumberFormat.getCurrencyInstance(Locale.FRANCE).apply {
         currency = java.util.Currency.getInstance(this@Transaction.currency.code)
         maximumFractionDigits = 2
     }
-
-    val formattedAmount: String
-        get() = if (amount > 0) {
-            "+${currencyFormatter.format(amount)}"
-        } else {
-            currencyFormatter.format(amount)
-        }
 }
